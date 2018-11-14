@@ -1,0 +1,50 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'blog/general.css' %}">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+<body>
+<div id="nav-div">
+
+</div>
+<h2>Post Assignments</h2>
+<p>
+    Find the course you want to post an assignment on.
+    Then, enter the name and description of the assignment.
+    Once you are finished, press "Add".
+</p>
+
+<!--
+The instructor should have a list of courses he is teaching.
+Each course has a list of assignments posted to that course.
+So every course has its own table, filled with existing assignments.
+And at the bottom of each table is a form to add a new assignment.
+-->
+<div>
+    {% for course in course_list %}
+    <p> {{course.name}} </p>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        {% for assignment in course.assignments %}
+        <tr>
+            <td>{{ assignment.name }}</td>
+            <td>{{ assignment.description }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <form class="add-assignment">
+
+    </form>
+    {% endfor %}
+</div>
+</body>
+<script>
+    $(function(){
+        $("#nav-div").load("nav.html");
+    });
+</script>
