@@ -24,8 +24,7 @@ And at the bottom of each table is a form to add a new assignment.
 -->
 <div>
     {% for course in course_list %}
-    <div>
-    <h3> {{course.name}} </h3>
+    <p> {{course.name}} </p>
     <table class="table">
         <tr>
             <th>Name</th>
@@ -38,13 +37,9 @@ And at the bottom of each table is a form to add a new assignment.
         </tr>
         {% endfor %}
     </table>
+    <form class="add-assignment">
 
-    <form action="/customerseegrades/" method="POST" class="add-assignment">
-        <input class="form-control" type="text" placeholder="Assignment name">
-        <input class="form-control" type="text" placeholder="Assignment name">
     </form>
-    <br>
-    </div>
     {% endfor %}
 </div>
 </body>
