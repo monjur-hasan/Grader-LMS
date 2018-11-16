@@ -2,3 +2,7 @@ body {
     margin: 15px 200px;
     min-width: 600px;
 }
+
+.nav-bar {
+    background-color: #007bff;
+}

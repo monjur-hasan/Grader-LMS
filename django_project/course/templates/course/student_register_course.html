@@ -22,21 +22,47 @@
             <th>Course Name</th>
             <th>Description</th>
             <th>Instructor</th>
+            <th>Register</th>
         </tr>
         {% for course in course_list %} <!--Full list of courses in db-->
         <tr>
             <td>{{ course.name }}</td>
             <td>{{ course.description }}</td>
             <td>{{ course.instructor }}</td>
-            <button class="register-course" id="{{ course.name }}">Register</button>
+            <td><button class="register-course" id="{{ course.name }}">Register</button></td>
         </tr>
         {% endfor %}
     </table>
     {% endfor %}
 </div>
 </body>
-<script>
-    $(function(){
-        $("#nav-div").load("nav_bar.html");
+<script> 
+    $("#nav-div").load("nav_bar.html");
+
+    $('.register-course').click(function() {
+        var studentName = ""; //get from session?
+        var data = { 
+            studentName: studentName,
+            courseName: $(this).attr('id')
+        };
+        var loc = window.location;
+        // maybe smarter way to get url
+        var url = loc.protocol + "//" + loc.hostname;
+        $.ajax({
+            url: "http://localhost:8080/student_register_course", //url subject to change
+            method: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            complete: () => {
+                window.alert("Successful registration")
+            },
+            error: (jqXHR, textStatus, errorThrown ) => {
+                window.alert("Failed to register");
+                console.error("textStatus: " + texStatus);
+                console.error("errorThrown: " + errorThown);
+            }
+        });
     });
+
 </script>
