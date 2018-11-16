@@ -9,41 +9,29 @@
 <div id="nav-div">
 
 </div>
-<h2>Post Assignments</h2>
+<h2>Register For Courses</h2>
 <p>
-    Find the course you want to post an assignment on. <br>
-    Then, enter the name and description of the assignment. <br>
-    Once you are finished, press "Add". <br>
+    Find the course you want to register. <br>
+    You can search for courses by name or instructor. <br>
+    Once you are finished, press "Register". <br>
 </p>
-
-<!--
-The instructor should have a list of courses he is teaching.
-Each course has a list of assignments posted to that course.
-So every course has its own table, filled with existing assignments.
-And at the bottom of each table is a form to add a new assignment.
--->
 <div>
-    {% for course in course_list %}
     <div>
-    <h3> {{course.name}} </h3>
     <table class="table">
         <tr>
-            <th>Name</th>
+            <th>Course Name</th>
             <th>Description</th>
+            <th>Instructor</th>
         </tr>
-        {% for assignment in course.assignments %}
+        {% for course in course_list %} <!--Full list of courses in db-->
         <tr>
-            <td>{{ assignment.name }}</td>
-            <td>{{ assignment.description }}</td>
+            <td>{{ course.name }}</td>
+            <td>{{ course.description }}</td>
+            <td>{{ course.instructor }}</td>
+            <button class="register-course" id="{{ course.name }}">Register</button>
         </tr>
         {% endfor %}
     </table>
-
-    <!--cant use html form, doesnt support textarea, so have to do manually-->
-    <p>New Assignment</p>
-    <input class="form-control" type="text" placeholder="Name">
-    <textarea class="form-control" rows=4 cols=10></textarea>
-    </div>
     {% endfor %}
 </div>
 </body>
