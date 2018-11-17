@@ -4,6 +4,8 @@ from django.db import models
 class Student(models.Model):
     name = models.CharField(max_length=200)
 
+    # add more
+
     def __str__(self):
         """String for representing the Model object."""
         return self.title
