@@ -1,0 +1,14 @@
+First make a virual environment:
+python3 -m venv v_env
+source v_env/bin/activate
+
+Now install dependencies:
+pip3 install peewee
+pip3 install flask==0.10.1
+pip3 install flask-login
+pip3 install flask-bcrypt
+pip3 install flask-wtf
+
+Run:
+python3 app.py
+
