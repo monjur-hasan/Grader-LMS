@@ -1,5 +1,5 @@
 from flask import (Flask, g, render_template, flash, redirect, url_for,
-                  abort)
+                  abort, )
 from flask.ext.bcrypt import check_password_hash
 from flask.ext.login import (LoginManager, login_user, logout_user,
                              login_required, current_user)
@@ -49,7 +49,7 @@ def register():
         teacher_b = True if form.category.data == "teacher" else False
         parent_b = True if form.category.data == "parent" else False
         student_b = True if form.category.data == "student" else False
-        
+        print(current_user)
         models.User.create_user(
             username=form.username.data,
             email=form.email.data,
@@ -78,9 +78,16 @@ def login():
                 flash("Your email or password doesn't match!", "error")
     return render_template('login.html', form=form)
 
-@app.route('/')
+@app.route('/', methods=('GET', 'POST'))
 def index():
-    return "Hello from Grader"
+    form = forms.CreateCourse()
+    
+    if form.validate_on_submit():
+        form = forms.CreateCourse()
+        print(form.date.data)
+        return redirect(url_for('login'))
+        
+    return render_template("create_course.html")
 
 
 if __name__ == '__main__':
