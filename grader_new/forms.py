@@ -7,11 +7,16 @@ from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
 """ from wtforms.fields.html5 import DateTimeLocalField """
 
 from models import User
+from models import Course
 
 
 def name_exists(form, field):
     if User.select().where(User.username == field.data).exists():
         raise ValidationError('User with that name already exists.')
+
+def course_exists(form, field):
+    if Course.select().where(Course.name == field.data).exists():
+        raise ValidationError('Course already exists.')
 
 
 def email_exists(form, field):
@@ -55,7 +60,7 @@ class LoginForm(Form):
 
 
 class CreateCourse(Form):
-    name = StringField('Name', validators=[DataRequired()])
+    name = StringField('Name', validators=[DataRequired(),course_exists])
     description = TextAreaField('Description',validators=[DataRequired()])
     """  time = DateTimeLocalField('Time of the Course', 
                             format='%Y-%m-%d %H:%M:%S', validators=[Required()]) """

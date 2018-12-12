@@ -88,7 +88,7 @@
 </div>
 </div>
 
-<h4> Current Course Statistics  </h4> 
+<h4> Current Course Infomation  </h4> 
 <table class="table table-striped">
     <thead>
         <tr>
@@ -99,15 +99,19 @@
         </tr>
     </thead>
     <tbody>
-    {% set count = 1 %}
+    {% set count = 0 %}
     {% for course in courses %}
+       {% set count = count + 1 %}
         <tr>
             <th scope="row">{{count}}</th>
             <td>{{course.name}}</td>
             <td>{{course.time}}</td>
-            <td>90</td>
+            <td>{{ count }}</td>
         </tr>
     </tbody>
+    
+    {% endfor %}
+  
 </table>
 <br>
 {% endblock %}

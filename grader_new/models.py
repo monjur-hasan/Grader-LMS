@@ -10,7 +10,6 @@ class User(UserMixin, Model):
     username = CharField(unique=True)
     email = CharField(unique=True)
     password = CharField(max_length=100)
-    joined_at = DateTimeField(default=datetime.datetime.now)
     is_teacher = BooleanField()
     is_parent = BooleanField()
     is_student = BooleanField()
@@ -34,8 +33,8 @@ class User(UserMixin, Model):
             raise ValueError("User already exists")
 
 class Course(Model):
-    teacher = ForeignKeyField(User, related_name='teacher_course')
-    student = ForeignKeyField(User, related_name='student_course')
+    teacher = ForeignKeyField(User, backref='teaches')
+    student = ForeignKeyField(User, backref='teaches')
     time = CharField(max_length=300)
     name = CharField(unique = True, max_length=100)
     description = TextField()
@@ -55,7 +54,7 @@ class Course(Model):
                     name=name,
                     description=description)
         except IntegrityError:
-            raise ValueError("Course already exists")
+            flash("Course already exists")
 
 class Assignement(Model):
     name = CharField(unique = True, max_length=100)

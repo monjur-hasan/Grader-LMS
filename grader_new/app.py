@@ -82,8 +82,13 @@ def login():
 def index():
     print(current_user)
     if(current_user.is_teacher):
-        courses = models.Post.select().where(models.User.id == current_user.id)
-        return render_template("instructor.html", courses = courses)
+        courses = models.Course.select()
+        course_list = []
+        for course in courses:
+            if(course.teacher.email==current_user.email):
+                course_list.append(course)
+
+        return render_template("instructor.html",courses=course_list)
     elif(current_user.is_parent):
         return render_template("parent.html")
     else:
@@ -101,9 +106,10 @@ def createCourse():
         models.Course.create_course(
             teacher,
             student,
+            form.date.data,
             form.name.data,
-            form.description.data,
-            form.date.data
+            form.description.data
+            
         )
         flash("Course successfully created!")
         return redirect(url_for('createCourse'))
