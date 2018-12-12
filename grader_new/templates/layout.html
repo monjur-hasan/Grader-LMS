@@ -31,9 +31,18 @@
         </div>
     </nav>
     {% endblock %}
+    <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-primary text-center">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     <div class="container">
         {% block content %}{% endblock %}
     </div>
+
 </body>
 </html>
 

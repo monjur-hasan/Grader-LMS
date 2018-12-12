@@ -49,7 +49,6 @@ def register():
         teacher_b = True if form.category.data == "teacher" else False
         parent_b = True if form.category.data == "parent" else False
         student_b = True if form.category.data == "student" else False
-        print(current_user)
         models.User.create_user(
             username=form.username.data,
             email=form.email.data,
@@ -58,7 +57,7 @@ def register():
             parent=parent_b,
             student=student_b
         )
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
 @app.route('/login', methods=('GET', 'POST'))
@@ -78,26 +77,57 @@ def login():
                 flash("Your email or password doesn't match!", "error")
     return render_template('login.html', form=form)
 
-@app.route('/', methods=('GET', 'POST'))
+@app.route('/')
+@login_required
 def index():
-    form = forms.CreateCourse()
-    
-    if form.validate_on_submit():
-        form = forms.CreateCourse()
-        print(form.date.data)
-        return redirect(url_for('login'))
-        
-    return render_template("create_course.html")
+    print(current_user)
+    if(current_user.is_teacher):
+        courses = models.Post.select().where(models.User.id == current_user.id)
+        return render_template("instructor.html", courses = courses)
+    elif(current_user.is_parent):
+        return render_template("parent.html")
+    else:
+        return render_template("student.html")
+    return "Not found"
 
+@app.route('/createCourse', methods=('GET', 'POST'))
+@login_required
+def createCourse():
+    form = forms.CreateCourse()
+    if form.validate_on_submit():
+        teacher = models.User.get(models.User.email==current_user.email)
+        student = models.User.get(models.User.email=="admin@admin.com")
+    
+        models.Course.create_course(
+            teacher,
+            student,
+            form.name.data,
+            form.description.data,
+            form.date.data
+        )
+        flash("Course successfully created!")
+        return redirect(url_for('createCourse'))
+
+    return render_template("create_course.html",form=form)
+
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash("You've been logged out! Come back soon!", "success")
+    return redirect(url_for('login'))
+        
 
 if __name__ == '__main__':
     models.initialize()
     try:
         models.User.create_user(
-            username='grader',
-            email='grader@grader.com',
-            password='grader',
-            teacher=True, parent=False, student=False
+            username='Admin',
+            email='admin@admin.com',
+            password='admin',
+            teacher=False, parent=False, student=True
         )
     except ValueError:
         pass

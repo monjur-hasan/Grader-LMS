@@ -1,8 +1,93 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<h3 class="text-center"> Teacher's Homepage </h3>
+<div class="d-flex justify-content-center row-hl">
+<div class="p-4 item-hl">
+    <div class="card" style="width: 20rem;">
+        <div class="card-body">
+            <h4 class="card-title">Create Course</h4>
+            <h6 class="card-subtitle text-muted">Card subtitle</h6>
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, quas.</p>
+            <a class="btn btn-outline-primary" href="{{ url_for('createCourse') }}">Click</a>
+        </div>
+</div>
 
-<h2 class="text-center"> Teacher's Homepage</h2>
+<br>
+<br>
+</div>
+
+<div class="p-4 item-hl">
+<div class="card" style="width: 20rem;">
+    <div class="card-body">
+        <h4 class="card-title">Create Assignments</h4>
+        <h6 class="card-subtitle text-muted">Card subtitle</h6>
+        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, quas.</p>
+        <a class="btn btn-outline-primary" href="#">Click</a>
+    </div>
+</div>
+
+<br>
+<br>
+      
+</div>
+
+<div class="p-4 item-hl">
+<div class="card" style="width: 20rem;">
+<div class="card-body">
+    <h4 class="card-title">Add Student</h4>
+    <h6 class="card-subtitle text-muted">Add Student</h6>
+    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, quas.</p>
+    <a class="btn btn-outline-primary" href="#">Click</a>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="d-flex justify-content-center row-hl">
+<div class="p-4 item-hl">
+    <div class="card" style="width: 20rem;">
+        <div class="card-body">
+            <h4 class="card-title">Add Parent</h4>
+            <h6 class="card-subtitle text-muted">Card subtitle</h6>
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, quas.</p>
+            <a class="btn btn-outline-primary" href="#">Click</a>
+        </div>
+</div>
+
+    <br>
+    <br>
+</div>
+
+<div class="p-4 item-hl">
+<div class="card" style="width: 20rem;">
+        <div class="card-body">
+        <h4 class="card-title">Grade Assignments</h4>
+        <h6 class="card-subtitle text-muted">Card subtitle</h6>
+        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, quas.</p>
+        <a class="btn btn-outline-primary" href="#">Click</a>
+</div>
+</div>
+
+<br>
+<br>
+      
+</div>
+
+<div class="p-4 item-hl">
+<div class="card" style="width: 20rem;">
+<div class="card-body">
+    <h4 class="card-title"> Reviews </h4>
+    <h6 class="card-subtitle text-muted">Card subtitle</h6>
+    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, quas.</p>
+    <a class="btn btn-outline-primary" href="#">Click</a>
+</div>
+</div>
+
+</div>
+</div>
+
 <h4> Current Course Statistics  </h4> 
 <table class="table table-striped">
     <thead>
@@ -14,102 +99,15 @@
         </tr>
     </thead>
     <tbody>
+    {% set count = 1 %}
+    {% for course in courses %}
         <tr>
-            <th scope="row">1</th>
-            <td>Biology</td>
-            <td>Cell Structure</td>
+            <th scope="row">{{count}}</th>
+            <td>{{course.name}}</td>
+            <td>{{course.time}}</td>
             <td>90</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Chemistry</td>
-            <td>Atoms & Molecule </td>
-            <td>71</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Computer Science</td>
-            <td>Object Oriented Programming</td>
-            <td>99</td>
         </tr>
     </tbody>
 </table>
-
 <br>
-<!-- HEADER, FOOTER, CENTERED -->
-<div class="card text-center">
-    <div class="card-header">
-    </div>
-    <div class="card-body">
-        <h4 class="card-title">Create Course</h4>
-        <a class="btn btn-dark" href="#">Press</a>
-    </div>
-    <div class="card-footer text-muted">
-    </div>
-</div>
-
-<br>
-<br>
-
-<!-- HEADER, FOOTER, CENTERED -->
-<div class="card text-center">
-    <div class="card-header">
-    </div>
-    <div class="card-body">
-        <h4 class="card-title">Create Assignments</h4>
-        <a class="btn btn-dark" href="#">Press</a>
-    </div>
-    <div class="card-footer text-muted">
-    </div>
-</div>
-
-<br>
-<br>
-
-<!-- HEADER, FOOTER, CENTERED -->
-<div class="card text-center">
-    <div class="card-header">
-    </div>
-    <div class="card-body">
-        <h4 class="card-title">Add Student</h4>
-        <a class="btn btn-dark" href="#">Press</a>
-    </div>
-    <div class="card-footer text-muted">
-    </div>
-</div>
-
-<br>
-<br>
-
-<!-- HEADER, FOOTER, CENTERED -->
-<div class="card text-center">
-    <div class="card-header">
-       
-    </div>
-    <div class="card-body">
-        <h4 class="card-title"> Add Parent</h4>
-        <a class="btn btn-dark" href="#">Press</a>
-    </div>
-    <div class="card-footer text-muted">
-    </div>
-</div>
-
-<br>
-<br>
-
-<!-- HEADER, FOOTER, CENTERED -->
-<div class="card text-center">
-    <div class="card-header">
-    </div>
-    <div class="card-body">
-        <h4 class="card-title">Grade Assignments</h4>
-        <a class="btn btn-dark" href="#">Press</a>
-    </div>
-    <div class="card-footer text-muted">
-    </div>
-</div>
-
-<br>
-<br>
-
 {% endblock %}

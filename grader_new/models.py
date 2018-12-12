@@ -11,9 +11,9 @@ class User(UserMixin, Model):
     email = CharField(unique=True)
     password = CharField(max_length=100)
     joined_at = DateTimeField(default=datetime.datetime.now)
-    is_teacher = BooleanField(default=False)
-    is_parent = BooleanField(default=False)
-    is_student = BooleanField(default=False)
+    is_teacher = BooleanField()
+    is_parent = BooleanField()
+    is_student = BooleanField()
     
     class Meta:
         database = DATABASE
@@ -28,7 +28,7 @@ class User(UserMixin, Model):
                     username=username,
                     email=email,
                     password=generate_password_hash(password),
-                    is_admin=teacher, is_parent=parent,
+                    is_teacher=teacher, is_parent=parent,
                     is_student=student)
         except IntegrityError:
             raise ValueError("User already exists")
@@ -42,6 +42,20 @@ class Course(Model):
 
     class Meta:
         database = DATABASE
+
+    @classmethod
+    def create_course(cls, teacher, student,time, 
+                    name, description):
+        try:
+            with DATABASE.transaction():
+                cls.create(
+                    teacher=teacher,
+                    student=student,
+                    time=time,
+                    name=name,
+                    description=description)
+        except IntegrityError:
+            raise ValueError("Course already exists")
 
 class Assignement(Model):
     name = CharField(unique = True, max_length=100)
@@ -61,5 +75,5 @@ class Grade(Model):
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([User], safe=True)
+    DATABASE.create_tables([User,Course], safe=True)
     DATABASE.close()
