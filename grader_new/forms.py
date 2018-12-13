@@ -8,6 +8,7 @@ from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
 
 from models import User
 from models import Course
+from models import Assignment
 
 
 def name_exists(form, field):
@@ -18,10 +19,26 @@ def course_exists(form, field):
     if Course.select().where(Course.name == field.data).exists():
         raise ValidationError('Course already exists.')
 
+def course_assignment_exists(form, field):
+    if Course.select().where(Course.name == field.data).exists():
+        pass
+    else:
+        raise ValidationError('Course does not exist.')
+
 
 def email_exists(form, field):
     if User.select().where(User.email == field.data).exists():
         raise ValidationError('User with that email already exists.')
+
+def assginment_exists(form, field):
+    if Assignment.select().where(Assignment.name == field.data).exists():
+        raise ValidationError('Assignment already exists!')
+
+def student_exists(form, field):
+    if User.select().where(User.email == field.data).exists():
+        pass
+    else:
+        raise ValidationError('User with that email does not exists.')
 
 class RegisterForm(Form):
     username = StringField(
@@ -67,16 +84,17 @@ class CreateCourse(Form):
     date = StringField('Days, Time', validators=[DataRequired()])
 
 class AddStudent(Form):
-    c_name = StringField('Course Name', validators=[DataRequired()])
-    s_uname = StringField('Student Username', validators=[DataRequired()])
+    c_name = StringField('Course Name', validators=[DataRequired(),course_assignment_exists])
+    s_email = StringField('Student Email', validators=[DataRequired(),student_exists])
 
 class AddParent(Form):
     c_name = StringField('Course Name', validators=[DataRequired()])
     s_uname = StringField('Parent Username', validators=[DataRequired()])
 
 class CreateAssignment(Form):
-    a_name = StringField('Assignment ID', validators=[DataRequired()])
-    c_name = StringField('Course Name', validators=[DataRequired()])
+    a_name = StringField('Assignment Name', validators=[DataRequired(), 
+                        assginment_exists])
+    c_name = StringField('Course Name', validators=[DataRequired(),course_assignment_exists])
 
 class GradeStudent(Form):
     s_uname = StringField('Student Username', validators=[DataRequired()])

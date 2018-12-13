@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% from 'macros.html' import render_field %}
-
+{% block navbar %} {% endblock %}
 {% block content %}
 <form method="POST" action="" class="form">
     {{ form.hidden_tag() }}
@@ -9,4 +9,6 @@
     {% endfor %}
     <button type="submit" id="submit">Login!</button>
 </form>
+
+<a class="btn btn-primary btn-block" href="{{ url_for('homepage')}}">Homepage</a>
 {% endblock %}

@@ -78,6 +78,11 @@ def login():
     return render_template('login.html', form=form)
 
 @app.route('/')
+def homepage():
+    return render_template("index.html")
+
+
+@app.route('/profile')
 @login_required
 def index():
     print(current_user)
@@ -105,16 +110,46 @@ def createCourse():
     
         models.Course.create_course(
             teacher,
-            student,
             form.date.data,
             form.name.data,
             form.description.data
-            
         )
         flash("Course successfully created!")
         return redirect(url_for('createCourse'))
 
     return render_template("create_course.html",form=form)
+
+@app.route('/createAssignment', methods=('GET', 'POST'))
+@login_required
+def createAssignment():
+    form = forms.CreateAssignment()
+    if form.validate_on_submit():
+        course = form.c_name.data
+        name = form.a_name.data
+
+        db_course = models.Course.get(models.Course.name==course)
+        if(db_course.teacher.username==current_user.username):
+            models.Assignment.create_assignment(
+                name = form.a_name.data,
+                course = db_course
+            )
+            flash("Yay!! Course created")
+        
+        else:
+            flash("Sorry you're not instructor of this course!")
+    return render_template("create_assignment.html",form=form)
+
+@app.route('/addStudent', methods=('GET', 'POST'))
+@login_required
+def addStudent():
+    form = forms.AddStudent()
+    if form.validate_on_submit():
+        email = form.s_email.data
+        course = form.c_name.data
+
+        db_course = models.Course.get(models.Course.name==course)
+        db_email = models.User.get(models.User.email==email)
+        
 
 
 

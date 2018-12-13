@@ -4,6 +4,7 @@ from flask.ext.bcrypt import generate_password_hash
 from flask.ext.login import UserMixin
 from peewee import *
 
+
 DATABASE = SqliteDatabase('social.db')
 
 class User(UserMixin, Model):
@@ -31,10 +32,11 @@ class User(UserMixin, Model):
                     is_student=student)
         except IntegrityError:
             raise ValueError("User already exists")
+    
 
 class Course(Model):
     teacher = ForeignKeyField(User, backref='teaches')
-    student = ForeignKeyField(User, backref='teaches')
+    student = ManyToManyField(User, backref='courses')
     time = CharField(max_length=300)
     name = CharField(unique = True, max_length=100)
     description = TextField()
@@ -43,30 +45,42 @@ class Course(Model):
         database = DATABASE
 
     @classmethod
-    def create_course(cls, teacher, student,time, 
+    def create_course(cls, teacher,time, 
                     name, description):
         try:
-            with DATABASE.transaction():
-                cls.create(
-                    teacher=teacher,
-                    student=student,
-                    time=time,
-                    name=name,
-                    description=description)
+            #with DATABASE.transaction():
+            cls.create(
+                teacher=teacher,
+                time=time,
+                name=name,
+                description=description)
         except IntegrityError:
-            flash("Course already exists")
+            raise ValueError("Course already exists")
+    
+StudentCourse = Course.student.get_through_model()
 
-class Assignement(Model):
+class Assignment(Model):
     name = CharField(unique = True, max_length=100)
-    course = ForeignKeyField(Course, related_name='assignment_course')
+    course = ForeignKeyField(Course, backref='assignments')
 
     class Meta:
         database = DATABASE
+    
+    @classmethod
+    def create_assignment(cls,name,course):
+        try:
+            with DATABASE.transaction():
+                cls.create(
+                    name=name,
+                    course=course
+                )
+        except IntegrityError:
+            raise ValueError("Assignment already exists")
         
 class Grade(Model):
     student = ForeignKeyField(User, related_name='student_course')
     letter = CharField(max_length=2)
-    assignement = ForeignKeyField(Assignement, related_name='assignment')
+    assignement = ForeignKeyField(Assignment, related_name='assignment')
 
     class Meta:
         database = DATABASE
@@ -74,5 +88,5 @@ class Grade(Model):
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([User,Course], safe=True)
+    DATABASE.create_tables([User, Course, Assignment,StudentCourse], safe=True)
     DATABASE.close()
