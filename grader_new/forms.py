@@ -88,8 +88,10 @@ class AddStudent(Form):
     s_email = StringField('Student Email', validators=[DataRequired(),student_exists])
 
 class AddParent(Form):
-    c_name = StringField('Course Name', validators=[DataRequired()])
-    s_uname = StringField('Parent Username', validators=[DataRequired()])
+    p_email = StringField('Parent Email', validators=[DataRequired(),
+                          student_exists])
+    s_email = StringField('Student Email', validators=[DataRequired(),
+                          student_exists])
 
 class CreateAssignment(Form):
     a_name = StringField('Assignment Name', validators=[DataRequired(), 

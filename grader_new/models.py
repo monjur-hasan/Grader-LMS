@@ -33,7 +33,6 @@ class User(UserMixin, Model):
         except IntegrityError:
             raise ValueError("User already exists")
     
-
 class Course(Model):
     teacher = ForeignKeyField(User, backref='teaches')
     student = ManyToManyField(User, backref='courses')
@@ -85,8 +84,18 @@ class Grade(Model):
     class Meta:
         database = DATABASE
 
+class Parent(Model):
+    parent = ForeignKeyField(User, backref='s_parent')
+    children = ManyToManyField(User, backref='children')
+
+    class Meta:
+        database = DATABASE
+
+ChildrenParent = Parent.children.get_through_model()
+
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([User, Course, Assignment,StudentCourse], safe=True)
+    DATABASE.create_tables([User, Course, Assignment,
+                            StudentCourse,Parent,ChildrenParent], safe=True)
     DATABASE.close()

@@ -108,12 +108,13 @@ def createCourse():
         teacher = models.User.get(models.User.email==current_user.email)
         student = models.User.get(models.User.email=="admin@admin.com")
     
-        models.Course.create_course(
-            teacher,
-            form.date.data,
-            form.name.data,
-            form.description.data
+        obj = models.Course.create(
+            teacher=teacher,
+            time=form.date.data,
+            name=form.name.data,
+            description=form.description.data
         )
+        obj.student = student
         flash("Course successfully created!")
         return redirect(url_for('createCourse'))
 
@@ -133,7 +134,7 @@ def createAssignment():
                 name = form.a_name.data,
                 course = db_course
             )
-            flash("Yay!! Course created")
+            flash("Yay! Assignment created")
         
         else:
             flash("Sorry you're not instructor of this course!")
@@ -144,11 +145,59 @@ def createAssignment():
 def addStudent():
     form = forms.AddStudent()
     if form.validate_on_submit():
-        email = form.s_email.data
+        user = form.s_email.data
         course = form.c_name.data
 
         db_course = models.Course.get(models.Course.name==course)
-        db_email = models.User.get(models.User.email==email)
+        db_user = models.User.get(models.User.email==user)
+
+        db_course.student.add(db_user)
+        flash("Student Added!")
+    
+    return render_template("add_student.html",form=form)
+
+@app.route('/addParent', methods=('GET', 'POST'))
+@login_required
+def addParent():
+    form = forms.AddParent()
+    if form.validate_on_submit():
+        p_email = form.p_email.data
+        s_email = form.s_email.data
+        parent_list = models.Parent.select()
+        parent_exist = False
+        parent_object = None
+        chd_user = models.User.get(models.User.email==s_email)
+        par_user = models.User.get(models.User.email==p_email)
+
+        for p in parent_list:
+            if p.parent.email == p_email:
+                parent_exist = True
+                parent_object = p
+
+        if parent_exist:
+            no_exists = True
+            for child in parent_object.children:
+                if child.email==s_email:
+                    no_exists = False
+                    flash("Parent was added before")
+
+            if no_exists:  
+                flash("Parent Added!")
+                parent_object.children.add(chd_user)
+                
+        else:
+            obj = models.Parent.create(parent=par_user)
+            obj.children = chd_user
+            flash("Parent Added")
+        
+    return render_template("add_parent.html",form=form)
+
+
+
+
+
+        
+        
         
 
 
