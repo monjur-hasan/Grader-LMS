@@ -209,10 +209,51 @@ def grade():
         flash("Student successfully graded!")
     return render_template("grade_student.html",form=form)
 
+@app.route('/stdSchedule')
+@login_required
+def stdSchedule():
 
+    courses = {}
+    obj = models.User.get(models.User.email==current_user.email)
+    for course in obj.courses:
+        courses[course.name]=[]
+        courses[course.name].append(course.time)
+        courses[course.name].append(course.teacher.username)
+        courses[course.name].append(course.teacher.email)
+    
+    return render_template("student_schedule.html", courses=courses)
 
+@app.route('/stdGrade')
+@login_required
+def stdGrade():
 
+    obj = models.User.get(models.User.email==current_user.email)
+    grades = models.Grade.select()
+    grade_dict = {}
+    for std in grades:
+        if(std.student.email==current_user.email):
+            assg = std.assignement.name 
+            grade_dict[assg]=[]
+            grade_dict[assg].append(std.assignement.course.name)
+            grade_dict[assg].append(str(std.assignement.due))
+            grade_dict[assg].append(std.letter)
+    
+    return render_template("student_grades.html", courses=grade_dict)
+
+""" @app.route('/stdAssignment')
+@login_required
+def stdAssignment():
+    obj = models.User.get(models.User.email==current_user.email)
+    list_courses = []
+
+    for course in obj.courses:
+        list_courses.append(course)
+    
+    for course in list_courses:
         
+
+    return "hello" """
+
 @app.route('/logout')
 @login_required
 def logout():

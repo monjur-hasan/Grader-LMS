@@ -9,7 +9,7 @@
             <h4 class="card-title">My Schedule</h4>
             <h6 class="card-subtitle text-muted">Card subtitle</h6>
             <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, quas.</p>
-            <a class="btn btn-outline-primary" href="{{ url_for('createCourse') }}">Click</a>
+            <a class="btn btn-outline-primary" href="{{ url_for('stdSchedule') }}">Click</a>
         </div>
 </div>
 
@@ -23,7 +23,7 @@
         <h4 class="card-title">View Grades</h4>
         <h6 class="card-subtitle text-muted">Card subtitle</h6>
         <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, quas.</p>
-        <a class="btn btn-outline-primary" href="createAssignment">Click</a>
+        <a class="btn btn-outline-primary" href="{{ url_for('stdGrade') }}">Click</a>
     </div>
 </div>
 
@@ -35,7 +35,7 @@
 <div class="p-4 item-hl">
 <div class="card" style="width: 20rem;">
 <div class="card-body">
-    <h4 class="card-title">Review Instructor</h4>
+    <h4 class="card-title">View Assignments</h4>
     <h6 class="card-subtitle text-muted">Add Student</h6>
     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, quas.</p>
     <a class="btn btn-outline-primary" href="{{ url_for('addStudent') }}">Click</a>

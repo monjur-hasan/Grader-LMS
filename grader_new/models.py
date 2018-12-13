@@ -79,7 +79,7 @@ class Assignment(Model):
             raise ValueError("Assignment already exists")
         
 class Grade(Model):
-    student = ForeignKeyField(User, related_name='student_course')
+    student = ForeignKeyField(User, backref='student_course')
     letter = CharField(max_length=3)
     assignement = ForeignKeyField(Assignment, related_name='assignment')
 
@@ -94,7 +94,6 @@ class Parent(Model):
         database = DATABASE
 
 ChildrenParent = Parent.children.get_through_model()
-
 
 def initialize():
     DATABASE.connect()
