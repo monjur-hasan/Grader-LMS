@@ -132,7 +132,8 @@ def createAssignment():
         if(db_course.teacher.username==current_user.username):
             models.Assignment.create_assignment(
                 name = form.a_name.data,
-                course = db_course
+                course = db_course,
+                due=form.due.data
             )
             flash("Yay! Assignment created")
         
@@ -192,16 +193,26 @@ def addParent():
         
     return render_template("add_parent.html",form=form)
 
+@app.route('/grade', methods=('GET', 'POST'))
+@login_required
+def grade():
+    form = forms.GradeStudent()
+    if form.validate_on_submit():
+        std = models.User.get(models.User.email==form.s_uname.data)
+
+        asg = models.Assignment.get(models.Assignment.name==form.asg_name.data)
+        models.Grade.create(
+            student=std,
+            letter = form.letter.data,
+            assignement=asg
+        )
+        flash("Student successfully graded!")
+    return render_template("grade_student.html",form=form)
 
 
 
 
         
-        
-        
-
-
-
 @app.route('/logout')
 @login_required
 def logout():

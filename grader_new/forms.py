@@ -4,7 +4,7 @@ from wtforms import (StringField, PasswordField,
 from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
                                Length, EqualTo, Required)
                                
-""" from wtforms.fields.html5 import DateTimeLocalField """
+from wtforms.fields.html5 import DateTimeLocalField
 
 from models import User
 from models import Course
@@ -34,11 +34,35 @@ def assginment_exists(form, field):
     if Assignment.select().where(Assignment.name == field.data).exists():
         raise ValidationError('Assignment already exists!')
 
+def assginment_no_exists(form, field):
+    
+    if Assignment.select().where(Assignment.name == field.data).exists():
+        print("x============x")
+        pass
+    else:    
+        raise ValidationError('Assignment does not exist!')
+
+    
 def student_exists(form, field):
     if User.select().where(User.email == field.data).exists():
-        pass
+        obj = User.get(User.email == field.data)
+        if(obj.is_student==False):
+            raise ValidationError('User is not student')
     else:
         raise ValidationError('User with that email does not exists.')
+
+def parent_exists(form, field):
+    if User.select().where(User.email == field.data).exists():
+        obj = User.get(User.email == field.data)
+        if(obj.is_parent==False):
+            raise ValidationError('User is not parent')
+    else:
+        raise ValidationError('User with that email does not exists.')
+
+def student_course_enroll(form,field):
+    obj = User.get(User.email == field.data)
+
+    pass
 
 class RegisterForm(Form):
     username = StringField(
@@ -79,9 +103,7 @@ class LoginForm(Form):
 class CreateCourse(Form):
     name = StringField('Name', validators=[DataRequired(),course_exists])
     description = TextAreaField('Description',validators=[DataRequired()])
-    """  time = DateTimeLocalField('Time of the Course', 
-                            format='%Y-%m-%d %H:%M:%S', validators=[Required()]) """
-    date = StringField('Days, Time', validators=[DataRequired()])
+    date = StringField('Schedule',validators=[DataRequired()])
 
 class AddStudent(Form):
     c_name = StringField('Course Name', validators=[DataRequired(),course_assignment_exists])
@@ -89,7 +111,7 @@ class AddStudent(Form):
 
 class AddParent(Form):
     p_email = StringField('Parent Email', validators=[DataRequired(),
-                          student_exists])
+                          parent_exists])
     s_email = StringField('Student Email', validators=[DataRequired(),
                           student_exists])
 
@@ -98,10 +120,12 @@ class CreateAssignment(Form):
                         assginment_exists])
     c_name = StringField('Course Name', validators=[DataRequired(),course_assignment_exists])
 
+    due = DateTimeLocalField('Due Date',format="%Y-%m-%dT%H:%M", validators=[DataRequired()])
+
 class GradeStudent(Form):
-    s_uname = StringField('Student Username', validators=[DataRequired()])
+    s_uname = StringField('Student Email', validators=[DataRequired(),student_exists])
     letter = StringField('Grade', validators=[DataRequired()])
-    asg_name = StringField('Assignment ID', validators=[DataRequired()])
+    asg_name = StringField('Assignment ID', validators=[DataRequired(),assginment_no_exists])
 
 
 

@@ -5,7 +5,7 @@ from flask.ext.login import UserMixin
 from peewee import *
 
 
-DATABASE = SqliteDatabase('social.db')
+DATABASE = SqliteDatabase('grader.db')
 
 class User(UserMixin, Model):
     username = CharField(unique=True)
@@ -61,24 +61,26 @@ StudentCourse = Course.student.get_through_model()
 class Assignment(Model):
     name = CharField(unique = True, max_length=100)
     course = ForeignKeyField(Course, backref='assignments')
+    due = DateTimeField()
 
     class Meta:
         database = DATABASE
     
     @classmethod
-    def create_assignment(cls,name,course):
+    def create_assignment(cls,name,course,due):
         try:
             with DATABASE.transaction():
                 cls.create(
                     name=name,
-                    course=course
+                    course=course,
+                    due=due
                 )
         except IntegrityError:
             raise ValueError("Assignment already exists")
         
 class Grade(Model):
     student = ForeignKeyField(User, related_name='student_course')
-    letter = CharField(max_length=2)
+    letter = CharField(max_length=3)
     assignement = ForeignKeyField(Assignment, related_name='assignment')
 
     class Meta:
@@ -97,5 +99,5 @@ ChildrenParent = Parent.children.get_through_model()
 def initialize():
     DATABASE.connect()
     DATABASE.create_tables([User, Course, Assignment,
-                            StudentCourse,Parent,ChildrenParent], safe=True)
+                            StudentCourse,Parent,ChildrenParent,Grade], safe=True)
     DATABASE.close()

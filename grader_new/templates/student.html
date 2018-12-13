@@ -1,109 +1,48 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<h2 class="text-center">Student's Homepage</h2>
-<h4> Grades </h4> 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Course</th>
-            <th>Assignment</th>
-            <th>Grade</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Biology</td>
-            <td>Cell Structure</td>
-            <td>90</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Chemistry</td>
-            <td>Atoms & Molecule </td>
-            <td>71</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Computer Science</td>
-            <td>Object Oriented Programming</td>
-            <td>99</td>
-        </tr>
-    </tbody>
-</table>
+<h2 class="text-center">Student's Dashboard</h2>
+<div class="d-flex justify-content-center row-hl">
+<div class="p-4 item-hl">
+    <div class="card" style="width: 20rem;">
+        <div class="card-body">
+            <h4 class="card-title">My Schedule</h4>
+            <h6 class="card-subtitle text-muted">Card subtitle</h6>
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, quas.</p>
+            <a class="btn btn-outline-primary" href="{{ url_for('createCourse') }}">Click</a>
+        </div>
+</div>
 
 <br>
+<br>
+</div>
 
-
-<h4> Incomplete Assignments </h4> 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Course</th>
-            <th>Assignment</th>
-            <th>Grade</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Biology</td>
-            <td>Cell Structure</td>
-            <td>90</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Chemistry</td>
-            <td>Atoms & Molecule </td>
-            <td>71</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Computer Science</td>
-            <td>Object Oriented Programming</td>
-            <td>99</td>
-        </tr>
-    </tbody>
-</table>
+<div class="p-4 item-hl">
+<div class="card" style="width: 20rem;">
+    <div class="card-body">
+        <h4 class="card-title">View Grades</h4>
+        <h6 class="card-subtitle text-muted">Card subtitle</h6>
+        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, quas.</p>
+        <a class="btn btn-outline-primary" href="createAssignment">Click</a>
+    </div>
+</div>
 
 <br>
-
-
-<h4> Schedule </h4> 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Course</th>
-            <th>Assignment</th>
-            <th>Grade</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Biology</td>
-            <td>Cell Structure</td>
-            <td>90</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Chemistry</td>
-            <td>Atoms & Molecule </td>
-            <td>71</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Computer Science</td>
-            <td>Object Oriented Programming</td>
-            <td>99</td>
-        </tr>
-    </tbody>
-</table>
-
 <br>
+      
+</div>
+
+<div class="p-4 item-hl">
+<div class="card" style="width: 20rem;">
+<div class="card-body">
+    <h4 class="card-title">Review Instructor</h4>
+    <h6 class="card-subtitle text-muted">Add Student</h6>
+    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, quas.</p>
+    <a class="btn btn-outline-primary" href="{{ url_for('addStudent') }}">Click</a>
+</div>
+</div>
+
+</div>
+</div>
 
 {% endblock %}
