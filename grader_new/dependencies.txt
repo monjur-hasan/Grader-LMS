@@ -3,7 +3,7 @@ python3 -m venv v_env
 source v_env/bin/activate
 
 Now install dependencies:
-pip3 install peewee
+pip3 install peewee # (3.7.1 ???)
 pip3 install flask==0.10.1
 pip3 install flask-login
 pip3 install flask-bcrypt

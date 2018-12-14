@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
+{% if current_user.is_student==True%}
 <h4 class="text-center">Your Schedule</h4> 
 <br>
 <table class="table table-striped">
@@ -29,4 +30,9 @@
   
 </table>
 <br>
+{% else %}
+<div class="alert alert-primary text-center">
+    You don't have authorization to view this page
+</div>
+{%endif%}
 {% endblock %}

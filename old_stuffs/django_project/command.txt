@@ -1,8 +1,0 @@
-python3 manage.py makemigrations
-python3 manage.py migrate
-python3 manage.py runserver
-
-Nav color: rgb(66,118,144)
-
-
-

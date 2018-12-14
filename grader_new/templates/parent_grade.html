@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
+{% if current_user.is_parent==True%}
 <h4 class="text-center">Parent Grade</h4> 
 <br>
 <table class="table table-striped">
@@ -8,7 +9,7 @@
             <th>#</th>
             <th>Student</th>
             <th>Course</th>
-            <th>Time </th>
+            <th>Grade </th>
         </tr>
     </thead>
     <tbody>
@@ -26,4 +27,10 @@
   
 </table>
 <br>
+{% else %}
+<div class="alert alert-primary text-center">
+    You don't have authorization to view this page
+</div>
+{%endif%}
+
 {% endblock %}
