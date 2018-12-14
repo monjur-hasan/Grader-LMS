@@ -12,3 +12,10 @@ pip3 install flask-wtf
 Run:
 python3 app.py
 
+Test users:
+
+Instructors: eugene@gmail.com, cappos@gmail.com
+Parents:eddie@gmail.com, kenneth@gmail.com
+Students: monjur@gmail.com, asim@gmail.com, jireh@gmail.com
+
+password: 1234
