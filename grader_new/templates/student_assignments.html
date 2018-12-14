@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+<h4 class="text-center">Your assignments</h4> 
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Assignment</th>
+            <th>Course</th>
+            <th>Deadline </th>
+        </tr>
+    </thead>
+    <tbody>
+    {% set count = namespace(a=1) %}
+    {% for key in assignments %}
+        <tr>
+            <th scope="row">{{count.a}}</th>
+            <td>{{key.name}}</td>
+            <td>{{key.course.name}}</td>
+            <td>{{key.due}}</td>
+        </tr>
+    </tbody>
+    {% set count.a = count.a + 1 %}
+    {% endfor %}
+</table>
+<br>
+{% endblock %}
+
+

@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2 class="text-center">Parent's Dashboard</h2>
+<div class="d-flex justify-content-center row-hl">
+<div class="p-4 item-hl">
+    <div class="card" style="width: 20rem;">
+        <div class="card-body">
+            <h4 class="card-title">Schedule</h4>
+            <h6 class="card-subtitle text-muted">Card subtitle</h6>
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, quas.</p>
+            <a class="btn btn-outline-primary" href="{{ url_for('stdSchedule') }}">Click</a>
+        </div>
+</div>
+
+<br>
+<br>
+</div>
+
+<div class="p-4 item-hl">
+<div class="card" style="width: 20rem;">
+    <div class="card-body">
+        <h4 class="card-title">View Grades</h4>
+        <h6 class="card-subtitle text-muted">Card subtitle</h6>
+        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, quas.</p>
+        <a class="btn btn-outline-primary" href="{{ url_for('stdGrade') }}">Click</a>
+    </div>
+</div>
+
+<br>
+<br>
+      
+</div>
+
+<div class="p-4 item-hl">
+<div class="card" style="width: 20rem;">
+<div class="card-body">
+    <h4 class="card-title"> Instructor Review </h4>
+    <h6 class="card-subtitle text-muted">Add Student</h6>
+    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, quas.</p>
+    <a class="btn btn-outline-primary" href="{{ url_for('stdAssignment') }}">Click</a>
+</div>
+</div>
+
+</div>
+</div>
+
+{% endblock %}

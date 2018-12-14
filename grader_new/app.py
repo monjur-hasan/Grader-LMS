@@ -235,25 +235,29 @@ def stdGrade():
             assg = std.assignement.name 
             grade_dict[assg]=[]
             grade_dict[assg].append(std.assignement.course.name)
-            grade_dict[assg].append(str(std.assignement.due))
             grade_dict[assg].append(std.letter)
     
     return render_template("student_grades.html", courses=grade_dict)
 
-""" @app.route('/stdAssignment')
+@app.route('/stdAssignment')
 @login_required
 def stdAssignment():
     obj = models.User.get(models.User.email==current_user.email)
     list_courses = []
+    asg_list = []
 
+    asg = models.Assignment.select()
     for course in obj.courses:
-        list_courses.append(course)
+            list_courses.append(course)
+
+    for hw in asg:
+        for course in list_courses:
+            if hw.course.name == course.name:
+                asg_list.append(hw)
     
-    for course in list_courses:
-        
-
-    return "hello" """
-
+    return render_template("student_assignments.html", assignments=asg)
+    
+    
 @app.route('/logout')
 @login_required
 def logout():
