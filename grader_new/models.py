@@ -95,8 +95,19 @@ class Parent(Model):
 
 ChildrenParent = Parent.children.get_through_model()
 
+
+class Review(Model):
+    instructor = ForeignKeyField(User)
+    discription = TextField()
+    reviewer = ForeignKeyField(User)
+
+    class Meta:
+        database = DATABASE
+
+
 def initialize():
     DATABASE.connect()
     DATABASE.create_tables([User, Course, Assignment,
-                            StudentCourse,Parent,ChildrenParent,Grade], safe=True)
+                            StudentCourse, Parent,
+                            ChildrenParent, Grade, Review], safe=True)
     DATABASE.close()

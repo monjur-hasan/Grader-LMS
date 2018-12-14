@@ -317,6 +317,36 @@ def parGrade():
     
     return render_template("parent_grade.html", courses=courses)
 
+@app.route('/reviewInstructor', methods=('GET', 'POST'))
+@login_required
+def reviewInstructor():
+    form = forms.ReviewInstructor()
+    if form.validate_on_submit():
+        inst = models.User.get(models.User.email==form.ins_email.data)
+        reviewer = models.User.get(models.User.email==current_user.email)
+        models.Review.create(
+            instructor = inst,
+            discription = form.description.data,
+            reviewer=reviewer
+        )
+        flash("Review sent to instructor!")
+    
+    return render_template("parent_review.html",form=form)
+
+@app.route('/instReview')
+@login_required
+def instReview():
+    reviews = models.Review.select()
+    review_list = [] 
+
+    for review in reviews:
+        if review.instructor.email==current_user.email:
+            critic = review.reviewer.username
+            review_list.append([critic, review.discription])
+
+    return render_template('inst_review.html', reviews = review_list)
+
+
 @app.route('/logout')
 @login_required
 def logout():

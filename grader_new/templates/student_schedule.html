@@ -13,11 +13,10 @@
         </tr>
     </thead>
     <tbody>
-    {% set count = 0 %}
+    {% set count = namespace(a=1) %}
     {% for key,value in courses.items() %}
-       {% set count = count + 1 %}
         <tr>
-            <th scope="row">{{count}}</th>
+            <th scope="row">{{count.a}}</th>
             <td>{{key}}</td>
             {% for item in value%}
             <td>{{item}}</td>
@@ -25,7 +24,7 @@
         
         </tr>
     </tbody>
-    
+    {% set count.a = count.a + 1 %}
     {% endfor %}
   
 </table>

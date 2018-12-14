@@ -64,6 +64,15 @@ def student_course_enroll(form,field):
 
     pass
 
+def instructor_exists(form, field):
+    if User.select().where(User.email == field.data).exists():
+        obj = User.get(User.email == field.data)
+        if(obj.is_teacher==False):
+            raise ValidationError('User is not Instructor')
+    else:
+        raise ValidationError('User with that email does not exists.')
+
+
 class RegisterForm(Form):
     username = StringField(
         'Username',
@@ -92,7 +101,8 @@ class RegisterForm(Form):
         ])
 
     category = RadioField('Category', 
-            choices=[('teacher','Teacher'),('parent','Parent'),('student','Student')],
+            choices=[('teacher','Teacher'),('parent','Parent'),
+                    ('student','Student')],
             validators=[DataRequired()])
     
 class LoginForm(Form):
@@ -106,8 +116,10 @@ class CreateCourse(Form):
     date = StringField('Schedule',validators=[DataRequired()])
 
 class AddStudent(Form):
-    c_name = StringField('Course Name', validators=[DataRequired(),course_assignment_exists])
-    s_email = StringField('Student Email', validators=[DataRequired(),student_exists])
+    c_name = StringField('Course Name', validators=[DataRequired(),
+                                    course_assignment_exists])
+    s_email = StringField('Student Email', validators=[DataRequired(),
+                            student_exists])
 
 class AddParent(Form):
     p_email = StringField('Parent Email', validators=[DataRequired(),
@@ -118,14 +130,25 @@ class AddParent(Form):
 class CreateAssignment(Form):
     a_name = StringField('Assignment Name', validators=[DataRequired(), 
                         assginment_exists])
-    c_name = StringField('Course Name', validators=[DataRequired(),course_assignment_exists])
+    c_name = StringField('Course Name', validators=[DataRequired(),
+                                    course_assignment_exists])
 
-    due = DateTimeLocalField('Due Date',format="%Y-%m-%dT%H:%M", validators=[DataRequired()])
+    due = DateTimeLocalField('Due Date',format="%Y-%m-%dT%H:%M", 
+                                    validators=[DataRequired()])
 
 class GradeStudent(Form):
-    s_uname = StringField('Student Email', validators=[DataRequired(),student_exists])
+    s_uname = StringField('Student Email', 
+                            validators=[DataRequired(),student_exists])
     letter = StringField('Grade', validators=[DataRequired()])
-    asg_name = StringField('Assignment ID', validators=[DataRequired(),assginment_no_exists])
+    asg_name = StringField('Assignment ID', 
+                            validators=[DataRequired(),assginment_no_exists])
+
+class ReviewInstructor(Form):
+    ins_email = StringField('Instructor Email',
+                 validators=[DataRequired(),instructor_exists])
+    description = TextAreaField('Your Review',validators=[DataRequired()])
+
+
 
 
 

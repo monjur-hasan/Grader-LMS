@@ -2,8 +2,8 @@
 {% from 'macros.html' import render_field %}
 
 {% block content %}
-{% if current_user.is_teacher==True%}
-<h4> Grade Student </h4>
+{% if current_user.is_parent==True%}
+<h4> Create a new course </h4>
 <form method="POST" action="" class="form">
     {{ form.hidden_tag() }}
     {% for field in form %}
@@ -17,4 +17,5 @@
     You don't have authorization to view this page
 </div>
 {%endif%}
+
 {% endblock %}

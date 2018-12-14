@@ -81,7 +81,7 @@
     <h4 class="card-title"> Reviews </h4>
     <h6 class="card-subtitle text-muted">Card subtitle</h6>
     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, quas.</p>
-    <a class="btn btn-outline-primary" href="#">Click</a>
+    <a class="btn btn-outline-primary" href="{{ url_for('instReview') }}">Click</a>
 </div>
 </div>
 
@@ -95,21 +95,18 @@
             <th>#</th>
             <th>Course</th>
             <th>Time</th>
-            <th>Total Students</th>
         </tr>
     </thead>
     <tbody>
-    {% set count = 0 %}
+    {% set count = namespace(a=1) %}
     {% for course in courses %}
-       {% set count = count + 1 %}
         <tr>
-            <th scope="row">{{count}}</th>
+            <th scope="row">{{count.a}}</th>
             <td>{{course.name}}</td>
             <td>{{course.time}}</td>
-            <td>{{ count }}</td>
         </tr>
     </tbody>
-    
+    {% set count.a = count.a + 1 %}
     {% endfor %}
   
 </table>
