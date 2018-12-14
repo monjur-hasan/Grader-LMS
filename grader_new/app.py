@@ -256,8 +256,67 @@ def stdAssignment():
                 asg_list.append(hw)
     
     return render_template("student_assignments.html", assignments=asg)
+
+@app.route('/parSchedule')
+@login_required
+def parSchedule():
     
+    parnt = models.User.get(models.User.email==current_user.email)
+    courses = []
+    children = []
+
+    """  for child in parnt.children:
+        #print(parnt.children)
+        children.append(child)
+     """
+    c_set = models.ChildrenParent.select()
     
+    for child_id in c_set:
+        child = models.User.get(models.User.id==child_id.user_id)
+        if(child.username != "Admin"):
+            children.append(child)
+
+    main_count = 0
+    for child in children:
+        for course in child.courses:
+            courses.append([])
+            courses[main_count].append(child.username)
+            courses[main_count].append(course.name)
+            courses[main_count].append(course.time)
+            courses[main_count].append(course.teacher.username)
+            courses[main_count].append(course.teacher.email)
+            main_count = main_count + 1
+    
+    return render_template("parent_schedule.html",courses=courses)
+
+@app.route('/parGrade')
+@login_required
+def parGrade():
+
+    parnt = models.User.get(models.User.email==current_user.email)
+    courses = []
+    children = []
+    c_set = models.ChildrenParent.select()
+
+    for child_id in c_set:
+        child = models.User.get(models.User.id==child_id.user_id)
+        if(child.username != "Admin"):
+            children.append(child)
+    
+    grades = models.Grade.select()
+
+    main_count = 0
+    for child in children:
+        for grade in grades:
+            if(grade.student.email == child.email):
+                courses.append([])
+                courses[main_count].append(child.username)
+                courses[main_count].append(grade.assignement.course.name)
+                courses[main_count].append(grade.letter)
+                main_count = main_count + 1
+    
+    return render_template("parent_grade.html", courses=courses)
+
 @app.route('/logout')
 @login_required
 def logout():
